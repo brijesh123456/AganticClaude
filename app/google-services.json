@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "161990283998",
+    "project_id": "aganticclaude",
+    "storage_bucket": "aganticclaude.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161990283998:android:743e0e3ad9dae89b4ea84f",
+        "android_client_info": {
+          "package_name": "com.aganticclaude"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA88dY9NMOrG6dMiLrXz0Bf29M0iPFIKWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
