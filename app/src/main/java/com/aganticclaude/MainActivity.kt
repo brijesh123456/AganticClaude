@@ -1,11 +1,16 @@
 package com.aganticclaude
 
 import android.os.Bundle
-import android.widget.Toast
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.aganticclaude.ui.theme.AganticClaudeTheme
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +50,12 @@ fun GreetingScreen(modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-              //  Toast.makeText(context, "Button clicked!", Toast.LENGTH_SHORT).show()
-                // 🚨 Force a crash using NullPointerException
-                throw NullPointerException("This is a forced crash for testing purposes!")
+                FirebaseCrashlytics.getInstance().log("Crash test initiated")
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    val list = listOf(1, 2)
+                    val crash = list[5]   // FATAL
+                }, 3000) // 3 seconds delay
             }
         ) {
             Text(text = "Click Me")
