@@ -53,8 +53,8 @@ fun GreetingScreen(modifier: Modifier = Modifier) {
                 FirebaseCrashlytics.getInstance().log("Crash test initiated")
 
                 Handler(Looper.getMainLooper()).postDelayed({
-                    val list = listOf(1, 2)
-                    val crash = list[5]   // FATAL
+                    val list = listOf(1, 2, 3)
+                    val crash = list[6]   // FATAL
                 }, 3000) // 3 seconds delay
             }
         ) {
