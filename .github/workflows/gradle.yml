@@ -51,6 +51,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
+          token: ${{ secrets.GH_PAT }}
           branch: ai/crash-fix
           title: "AI Crash Fix PR"
           commit-message: "AI: Fix crash based on logs"
