@@ -25,9 +25,9 @@ jobs:
         run: ./gradlew assemble
       - name: Git Sync
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git pull origin main
+          git config --global user.name "brijesh123456"
+          git config --global user.email "brijpathak111@gmail.com"
+          git pull --no-rebase origin main
       - name: Collect Crash Logs
         run: |
           # Placeholder: Add script to fetch crash logs from Crashlytics or other source
