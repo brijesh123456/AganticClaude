@@ -36,11 +36,9 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install OpenAI Python SDK
-        run: pip install openai
-      - name: Run OpenAI Crash Fix Script
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - name: Install Transformers and Torch
+        run: pip install transformers torch
+      - name: Run Open Source AI Crash Fix Script
         run: python openai_crash_fix.py
       - name: Assemble Project After Fix
         run: ./gradlew assemble
@@ -49,7 +47,7 @@ jobs:
       - name: Commit Changes
         run: |
           git add .
-          git commit -m "AI: Fix crash based on logs"
+          git commit -m "AI: Fix crash based on logs" || echo "No changes to commit"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:

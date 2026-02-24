@@ -1,9 +1,12 @@
 import os
-import openai
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
 
-# Set your OpenAI API key from environment variable
-gpt_api_key = os.getenv('OPENAI_API_KEY')
-openai.api_key = gpt_api_key
+# Load open source AI model (Code Llama or StarCoder)
+MODEL_NAME = "codellama/CodeLlama-7b-Instruct-hf"  # Or use starcoder/starcoderbase-7b
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
 
 # Placeholder: Read crash logs from a file or input
 def read_crash_logs():
@@ -13,17 +16,13 @@ def read_crash_logs():
             return f.read()
     return 'No crash logs found.'
 
-# Send crash logs to OpenAI and get fix suggestion
+# Send crash logs to AI model and get fix suggestion
 def get_fix_suggestion(crash_logs):
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are an expert Android developer. Read the crash log and suggest a code fix."},
-            {"role": "user", "content": crash_logs}
-        ],
-        max_tokens=500
-    )
-    return response.choices[0].message['content']
+    prompt = f"You are an expert Android developer. Read the crash log and suggest a code fix.\nCrash log:\n{crash_logs}\n"
+    inputs = tokenizer(prompt, return_tensors="pt")
+    outputs = model.generate(**inputs, max_new_tokens=500)
+    suggestion = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return suggestion
 
 # Placeholder: Apply fix suggestion (manual or automated)
 def apply_fix(suggestion):
@@ -37,4 +36,3 @@ if __name__ == '__main__':
     logs = read_crash_logs()
     suggestion = get_fix_suggestion(logs)
     apply_fix(suggestion)
-
