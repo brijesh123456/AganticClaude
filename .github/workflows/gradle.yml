@@ -8,11 +8,22 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: wrapper
+      - name: Clean Project
+        run: ./gradlew clean
+      - name: Assemble Project
+        run: ./gradlew assemble
       - name: Confirm dispatch
         run: |
           echo "Repository dispatch received"
           echo "Payload:"
           echo '${{ toJson(github.event.client_payload) }}'
+      
 
 
 

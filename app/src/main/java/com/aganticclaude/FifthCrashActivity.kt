@@ -1,6 +1,5 @@
 package com.aganticclaude
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,58 +8,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
-class ThirdCrashActivity : ComponentActivity() {
+class FifthCrashActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            ThirdCrashScreen()
+            FifthCrashScreen()
         }
     }
 }
 
 @Composable
-fun ThirdCrashScreen() {
-
-    // ✅ Get the Compose context
-    val context = LocalContext.current
-
+fun FifthCrashScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // 🔴 First Button → Open FourthCrashActivity
-        Button(
-            onClick = {
-                context.startActivity(
-                    Intent(context, FourthCrashActivity::class.java)
-                )
-            }
-        ) {
-            Text("Open Fourth Crash Activity")
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // 🔵 Second Crash Button
+        // Crash using ArrayIndexOutOfBoundsException
         Button(
             onClick = {
                 FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from ThirdCrashActivity - Button 2")
-                    setCustomKey("crash_button", "ThirdActivity_Button2")
+                    log("Crash from FifthCrashActivity - ArrayIndexOutOfBounds")
+                    setCustomKey("crash_type", "ArrayIndexOutOfBounds")
                 }
 
-                throw RuntimeException("Crash from ThirdCrashActivity Button 2")
+                val list = listOf(1, 2, 3)
+                val crash = list[10]  // This will throw ArrayIndexOutOfBoundsException
             }
         ) {
-            Text("Crash Button 2")
+            Text("Crash With Array Index Error")
         }
     }
 }

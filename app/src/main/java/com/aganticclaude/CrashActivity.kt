@@ -1,6 +1,4 @@
-
 package com.aganticclaude
-
 
 import android.content.Intent
 import android.os.Bundle
@@ -24,12 +22,21 @@ class CrashActivity : ComponentActivity() {
             CrashScreen()
         }
     }
+
+    // ✅ New method for reporting non-fatal errors
+    fun reportNonFatalError(message: String) {
+        FirebaseCrashlytics.getInstance().apply {
+            log("Non-fatal error reported: $message")
+            recordException(Exception(message))
+        }
+    }
 }
 
 @Composable
 fun CrashScreen() {
 
     val context = LocalContext.current
+    val activity = context as CrashActivity
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -60,6 +67,17 @@ fun CrashScreen() {
             }
         ) {
             Text("Crash From Second Button")
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 🟢 Third Button → Non-Fatal Error
+        Button(
+            onClick = {
+                throw RuntimeException("Crash from Sixth Button")
+            }
+        ) {
+            Text("Report Non-Fatal Error")
         }
     }
 }
