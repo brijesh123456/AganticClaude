@@ -1,58 +1,106 @@
-name: Automated Crash Fix Workflow
+name: Test Repository Dispatch
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  repository_dispatch:
+    types: [crash_detected]
 
 jobs:
-  crash-fix:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: wrapper
-      - name: Clean Project
-        run: ./gradlew clean
-      - name: Assemble Project
-        run: ./gradlew assemble
-      - name: Git Sync
+      - name: Confirm dispatch
         run: |
-          git config --global user.name "brijesh123456"
-          git config --global user.email "brijpathak111@gmail.com"
-          git pull --no-rebase origin main
-      - name: Collect Crash Logs
-        run: |
-          # Placeholder: Add script to fetch crash logs from Crashlytics or other source
-          echo "Collecting crash logs..."
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Install Transformers and Torch
-        run: pip install transformers torch
-      - name: Run Open Source AI Crash Fix Script
-        run: python openai_crash_fix.py
-      - name: Assemble Project After Fix
-        run: ./gradlew assemble
-      - name: Run Tests
-        run: ./gradlew test
-      - name: Commit Changes
-        run: |
-          git add .
-          git commit -m "AI: Fix crash based on logs" || echo "No changes to commit"
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GH_PAT }}
-          branch: ai/crash-fix
-          title: "AI Crash Fix PR"
-          commit-message: "AI: Fix crash based on logs"
-          base: main
+          echo "Repository dispatch received"
+          echo "Payload:"
+          echo '${{ toJson(github.event.client_payload) }}'
+
+
+
+
+
+#name: Automated Crash Fix Workflow
+#
+#on:
+#  workflow_dispatch:
+#  push:
+#    branches:
+#      - main
+#  pull_request:
+#    branches:
+#      - main
+#
+#jobs:
+#  crash-fix:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#      - name: Set up Gradle
+#        uses: gradle/gradle-build-action@v2
+#        with:
+#          gradle-version: wrapper
+#      - name: Clean Project
+#        run: ./gradlew clean
+#      - name: Assemble Project
+#        run: ./gradlew assemble
+#      - name: Git Sync
+#        run: |
+#          git config --global user.name "brijesh123456"
+#          git config --global user.email "brijpathak111@gmail.com"
+#          git pull --no-rebase origin main
+#      - name: Collect Crash Logs
+#        run: |
+#          # Placeholder: Add script to fetch crash logs from Crashlytics or other source
+#          echo "Collecting crash logs..."
+#      - name: Set up Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.10'
+#      - name: Install Transformers and Torch
+#        run: pip install transformers torch
+#      - name: Run Open Source AI Crash Fix Script
+#        run: python openai_crash_fix.py
+#      - name: Assemble Project After Fix
+#        run: ./gradlew assemble
+#      - name: Run Tests
+#        run: ./gradlew test
+#      - name: Commit Changes
+#        run: |
+#          git add .
+#          git commit -m "AI: Fix crash based on logs" || echo "No changes to commit"
+#      - name: Create Pull Request
+#        uses: peter-evans/create-pull-request@v5
+#        with:
+#          token: ${{ secrets.GH_PAT }}
+#          branch: ai/crash-fix
+#          title: "AI Crash Fix PR"
+#          commit-message: "AI: Fix crash based on logs"
+#          base: main
+
+
+#name: Test Repository Dispatch
+#
+#on:
+#  repository_dispatch:
+#    types: [crash_detected]
+#
+#jobs:
+#  test:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - steps:
+#          - name: Checkout code
+#            uses: actions/checkout@v3
+#          - name: Set up Gradle
+#            uses: gradle/gradle-build-action@v2
+#            with:
+#              gradle-version: wrapper
+#          - name: Clean Project
+#            run: ./gradlew clean
+#          - name: Assemble Project
+#            run: ./gradlew assemble
+#          - name: Confirm dispatch
+#            run: |
+#              echo "Repository dispatch received"
+#              echo "Payload:"
+#              echo '${{ toJson(github.event.client_payload) }}'
