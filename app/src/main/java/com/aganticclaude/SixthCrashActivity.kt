@@ -13,21 +13,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
-class FifthCrashActivity : ComponentActivity() {
+class SixthCrashActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            FifthCrashScreen()
+            SixthCrashScreen()
         }
     }
 }
 
 @Composable
-fun FifthCrashScreen() {
+fun SixthCrashScreen() {
 
-    val context = LocalContext.current  // ✅ Get context to open SixthCrashActivity
+    val context = LocalContext.current  // ✅ Get context for navigation
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -35,32 +35,31 @@ fun FifthCrashScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // 🔴 Crash using ArrayIndexOutOfBoundsException
+        // 🔴 First Crash Button
         Button(
             onClick = {
                 FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from FifthCrashActivity - ArrayIndexOutOfBounds")
-                    setCustomKey("crash_type", "ArrayIndexOutOfBounds")
+                    log("Crash from SixthCrashActivity - Button 1")
+                    setCustomKey("crash_button", "SixthActivity_Button1")
                 }
 
-                val list = listOf(1, 2, 3)
-                val crash = list[10]  // This will throw ArrayIndexOutOfBoundsException
+                throw RuntimeException("Crash from SixthCrashActivity Button 1")
             }
         ) {
-            Text("Crash With Array Index Error")
+            Text("Crash Button 1")
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // 🔵 New Button → Open SixthCrashActivity
+        // 🔵 Open SeventhCrashActivity
         Button(
             onClick = {
                 context.startActivity(
-                    Intent(context, SixthCrashActivity::class.java)
+                    Intent(context, SeventhCrashActivity::class.java)
                 )
             }
         ) {
-            Text("Open Sixth Crash Activity")
+            Text("Open Seventh Crash Activity")
         }
     }
 }

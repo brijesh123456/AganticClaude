@@ -31,6 +31,10 @@
         <activity android:name=".FourthCrashActivity" />
 
         <activity android:name=".FifthCrashActivity" />
+
+        <activity android:name=".SixthCrashActivity" />
+
+        <activity android:name=".SeventhCrashActivity" />
     </application>
 
 </manifest>

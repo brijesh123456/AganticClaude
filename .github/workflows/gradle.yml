@@ -1,8 +1,12 @@
-name: Test Repository Dispatch
+name: Auto Fix Crash & Raise PR
 
 on:
   repository_dispatch:
     types: [crash_detected]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   test:
@@ -10,14 +14,54 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: wrapper
-      - name: Clean Project
-        run: ./gradlew clean
-      - name: Assemble Project
-        run: ./gradlew assemble
+
+      # Step 1: Read the crash log from payload
+      - name: Read crash log
+        id: crash_log
+        run: |
+         echo "📋 Reading crash log from dispatch payload..."
+         CRASH_LOG='${{ toJson(github.event.client_payload) }}'
+         echo "Crash Log:"
+         echo "$CRASH_LOG"
+                              
+        # Extract specific fields if available
+         FILE_PATH=$(echo "$CRASH_LOG" | jq -r '.file_path // empty')
+         ERROR_MESSAGE=$(echo "$CRASH_LOG" | jq -r '.error_message // empty')
+         STACK_TRACE=$(echo "$CRASH_LOG" | jq -r '.stack_trace // empty')
+                              
+         echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
+         echo "error_message=$ERROR_MESSAGE" >> $GITHUB_OUTPUT
+                              
+        # Use a delimiter for multiline stack trace
+         echo "stack_trace<<EOF" >> $GITHUB_OUTPUT
+         echo "$STACK_TRACE" >> $GITHUB_OUTPUT
+         echo "EOF" >> $GITHUB_OUTPUT
+                              
+        # Save full crash log to a file for OpenAI
+         echo "$CRASH_LOG" > /tmp/crash_log.json
+
+        # Step 2: Read the source file that caused the crash
+      - name: Read source file
+        id: source_file
+        run: |
+          FILE_PATH="${{ steps.crash_log.outputs.file_path }}"
+          if [ -n "$FILE_PATH" ] && [ -f "$FILE_PATH" ]; then
+          echo "📄 Reading source file: $FILE_PATH"
+          SOURCE_CODE=$(cat "$FILE_PATH")
+          echo "source_code<<EOF" >> $GITHUB_OUTPUT
+          echo "$SOURCE_CODE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          else
+          echo "⚠️ File path not found or not provided: $FILE_PATH"
+          echo "source_code=" >> $GITHUB_OUTPUT
+          fi
+
       - name: Confirm dispatch
         run: |
           echo "Repository dispatch received"

@@ -1,6 +1,5 @@
 package com.aganticclaude
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,25 +8,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
-class FifthCrashActivity : ComponentActivity() {
+class SeventhCrashActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            FifthCrashScreen()
+            SeventhCrashScreen()
         }
     }
 }
 
 @Composable
-fun FifthCrashScreen() {
-
-    val context = LocalContext.current  // ✅ Get context to open SixthCrashActivity
+fun SeventhCrashScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -35,32 +31,35 @@ fun FifthCrashScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // 🔴 Crash using ArrayIndexOutOfBoundsException
+        // 🔴 Crash 1 → NullPointerException
         Button(
             onClick = {
                 FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from FifthCrashActivity - ArrayIndexOutOfBounds")
-                    setCustomKey("crash_type", "ArrayIndexOutOfBounds")
+                    log("Crash from SeventhCrashActivity - NullPointerException")
+                    setCustomKey("crash_type", "NullPointerException")
                 }
 
-                val list = listOf(1, 2, 3)
-                val crash = list[10]  // This will throw ArrayIndexOutOfBoundsException
+                val text: String? = null
+                text!!.length   // Force NullPointerException
             }
         ) {
-            Text("Crash With Array Index Error")
+            Text("Crash - Null Pointer")
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // 🔵 New Button → Open SixthCrashActivity
+        // 🔵 Crash 2 → IllegalStateException
         Button(
             onClick = {
-                context.startActivity(
-                    Intent(context, SixthCrashActivity::class.java)
-                )
+                FirebaseCrashlytics.getInstance().apply {
+                    log("Crash from SeventhCrashActivity - IllegalStateException")
+                    setCustomKey("crash_type", "IllegalStateException")
+                }
+
+                throw IllegalStateException("Illegal state triggered in SeventhCrashActivity")
             }
         ) {
-            Text("Open Sixth Crash Activity")
+            Text("Crash - Illegal State")
         }
     }
 }
