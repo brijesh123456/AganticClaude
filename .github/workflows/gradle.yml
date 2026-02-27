@@ -21,7 +21,6 @@ jobs:
         with:
           gradle-version: wrapper
 
-        # Step 1: Read the crash log from payload
       - name: Read crash log
         id: crash_log
         run: |
@@ -30,7 +29,6 @@ jobs:
          echo "Crash Log:"
          echo "$CRASH_LOG"
                               
-        # Extract specific fields if available
          FILE_PATH=$(echo "$CRASH_LOG" | jq -r '.file_path // empty')
          ERROR_MESSAGE=$(echo "$CRASH_LOG" | jq -r '.error_message // empty')
          STACK_TRACE=$(echo "$CRASH_LOG" | jq -r '.stack_trace // empty')
@@ -38,15 +36,12 @@ jobs:
          echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
          echo "error_message=$ERROR_MESSAGE" >> $GITHUB_OUTPUT
                               
-        # Use a delimiter for multiline stack trace
          echo "stack_trace<<EOF" >> $GITHUB_OUTPUT
          echo "$STACK_TRACE" >> $GITHUB_OUTPUT
          echo "EOF" >> $GITHUB_OUTPUT
                               
-        # Save full crash log to a file for OpenAI
          echo "$CRASH_LOG" > /tmp/crash_log.json
 
-        # Step 2: Read the source file that caused the crash
       - name: Read source file
         id: source_file
         run: |
