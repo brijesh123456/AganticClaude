@@ -118,8 +118,11 @@ fun TwelfthCrashScreen() {
                     log("Crash from TwelfthCrashActivity - StackOverflowError")
                     setCustomKey("crash_type", "StackOverflowError")
                 }
-                fun recurse(): Int = recurse() + 1
-                recurse()
+                fun recurse(depth: Int): Int {
+                    if (depth <= 0) return 0
+                    return recurse(depth - 1) + 1
+                }
+                recurse(100)
             }
         ) {
             Text("5. Stack Overflow")
