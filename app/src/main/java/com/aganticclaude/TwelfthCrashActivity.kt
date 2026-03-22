@@ -47,12 +47,16 @@ fun TwelfthCrashScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from TwelfthCrashActivity - NullPointerException")
-                    setCustomKey("crash_type", "NullPointerException")
+                try {
+                    FirebaseCrashlytics.getInstance().apply {
+                        log("Crash from TwelfthCrashActivity - NullPointerException")
+                        setCustomKey("crash_type", "NullPointerException")
+                    }
+                    val text: String? = null
+                    val length = text!!.length
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
-                val text: String? = null
-                val length = text!!.length
             }
         ) {
             Text("1. Null Pointer Exception")
@@ -64,12 +68,16 @@ fun TwelfthCrashScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from TwelfthCrashActivity - ArrayIndexOutOfBoundsException")
-                    setCustomKey("crash_type", "ArrayIndexOutOfBoundsException")
+                try {
+                    FirebaseCrashlytics.getInstance().apply {
+                        log("Crash from TwelfthCrashActivity - ArrayIndexOutOfBoundsException")
+                        setCustomKey("crash_type", "ArrayIndexOutOfBoundsException")
+                    }
+                    val arr = intArrayOf(1, 2, 3)
+                    val crash = arr[10]
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
-                val arr = intArrayOf(1, 2, 3)
-                val crash = arr[10]
             }
         ) {
             Text("2. Array Index Out Of Bounds")
@@ -81,12 +89,16 @@ fun TwelfthCrashScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from TwelfthCrashActivity - ClassCastException")
-                    setCustomKey("crash_type", "ClassCastException")
+                try {
+                    FirebaseCrashlytics.getInstance().apply {
+                        log("Crash from TwelfthCrashActivity - ClassCastException")
+                        setCustomKey("crash_type", "ClassCastException")
+                    }
+                    val obj: Any = "This is a String"
+                    val number = obj as Int
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
-                val obj: Any = "This is a String"
-                val number = obj as Int
             }
         ) {
             Text("3. Class Cast Exception")
@@ -98,11 +110,15 @@ fun TwelfthCrashScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from TwelfthCrashActivity - ArithmeticException")
-                    setCustomKey("crash_type", "ArithmeticException")
+                try {
+                    FirebaseCrashlytics.getInstance().apply {
+                        log("Crash from TwelfthCrashActivity - ArithmeticException")
+                        setCustomKey("crash_type", "ArithmeticException")
+                    }
+                    val result = 100 / 0
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
-                val result = 100 / 0
             }
         ) {
             Text("4. Divide By Zero")
@@ -114,12 +130,16 @@ fun TwelfthCrashScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from TwelfthCrashActivity - StackOverflowError")
-                    setCustomKey("crash_type", "StackOverflowError")
+                try {
+                    FirebaseCrashlytics.getInstance().apply {
+                        log("Crash from TwelfthCrashActivity - StackOverflowError")
+                        setCustomKey("crash_type", "StackOverflowError")
+                    }
+                    fun recurse(): Int = recurse() + 1
+                    recurse()
+                } catch (e: Throwable) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
-                fun recurse(): Int = recurse() + 1
-                recurse()
             }
         ) {
             Text("5. Stack Overflow")
@@ -131,11 +151,15 @@ fun TwelfthCrashScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from TwelfthCrashActivity - NumberFormatException")
-                    setCustomKey("crash_type", "NumberFormatException")
+                try {
+                    FirebaseCrashlytics.getInstance().apply {
+                        log("Crash from TwelfthCrashActivity - NumberFormatException")
+                        setCustomKey("crash_type", "NumberFormatException")
+                    }
+                    val number = "NotANumber".toInt()
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
-                val number = "NotANumber".toInt()
             }
         ) {
             Text("6. Number Format Exception")
@@ -147,11 +171,15 @@ fun TwelfthCrashScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from TwelfthCrashActivity - IllegalStateException")
-                    setCustomKey("crash_type", "IllegalStateException")
+                try {
+                    FirebaseCrashlytics.getInstance().apply {
+                        log("Crash from TwelfthCrashActivity - IllegalStateException")
+                        setCustomKey("crash_type", "IllegalStateException")
+                    }
+                    throw IllegalStateException("Forced IllegalStateException from TwelfthCrashActivity")
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
-                throw IllegalStateException("Forced IllegalStateException from TwelfthCrashActivity")
             }
         ) {
             Text("7. Illegal State Exception")
@@ -163,11 +191,15 @@ fun TwelfthCrashScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from TwelfthCrashActivity - RuntimeException")
-                    setCustomKey("crash_type", "RuntimeException")
+                try {
+                    FirebaseCrashlytics.getInstance().apply {
+                        log("Crash from TwelfthCrashActivity - RuntimeException")
+                        setCustomKey("crash_type", "RuntimeException")
+                    }
+                    throw RuntimeException("Forced fatal RuntimeException from TwelfthCrashActivity")
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                 }
-                throw RuntimeException("Forced fatal RuntimeException from TwelfthCrashActivity")
             }
         ) {
             Text("8. Runtime Exception (Fatal)")
