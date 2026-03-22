@@ -62,4 +62,21 @@ fun SixthCrashScreen() {
             Text("Open Seventh Crash Activity")
         }
     }
+
+    Spacer(modifier = Modifier.height(20.dp))
+
+    // 🟢 Third Crash Button → Divide by Zero Crash
+    Button(
+        onClick = {
+            FirebaseCrashlytics.getInstance().apply {
+                log("Crash from ThirdCrashActivity - Button 3 (Divide by Zero)")
+                setCustomKey("crash_button", "ThirdActivity_Button3")
+            }
+
+            // ⚠️ Force crash: divide by zero
+            val crash = 10 / 0
+        }
+    ) {
+        Text("Crash Button 3 (Divide by Zero)")
+    }
 }

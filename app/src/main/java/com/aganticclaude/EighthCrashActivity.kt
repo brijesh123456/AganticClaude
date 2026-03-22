@@ -1,6 +1,5 @@
 package com.aganticclaude
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,36 +9,40 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.unit.dp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
-class MainActivity : ComponentActivity() {
+class EighthCrashActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MainScreen(
-                onOpenCrash = { startActivity(Intent(this, CrashActivity::class.java)) },
-                onOpenCrashMenu = { startActivity(Intent(this, TwelfthCrashActivity::class.java)) }
-            )
+            EighthCrashScreen()
         }
     }
 }
 
 @Composable
-fun MainScreen(onOpenCrash: () -> Unit, onOpenCrashMenu: () -> Unit) {
+fun EighthCrashScreen() {
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = onOpenCrash) {
-            Text("Open Crash Screen")
-        }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        // 🔴 Crash Button
+        Button(
+            onClick = {
+                FirebaseCrashlytics.getInstance().apply {
+                    log("Crash from EighthCrashActivity")
+                    setCustomKey("crash_screen", "EighthCrashActivity")
+                }
 
-        Button(onClick = onOpenCrashMenu) {
-            Text("Open Crash Test Menu")
+                throw RuntimeException("Fatal crash from EighthCrashActivity")
+            }
+        ) {
+            Text("Crash in Eighth Activity")
         }
     }
 }

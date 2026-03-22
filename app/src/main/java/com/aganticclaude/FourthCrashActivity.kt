@@ -93,5 +93,16 @@ fun FourthCrashScreen() {
         ) {
             Text("Open Fifth Crash Activity")
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 🟢 Third Crash Button → Divide by Zero Crash
+        Button(
+            onClick = {
+                throw RuntimeException("This should crash the app")
+            }
+        ) {
+            Text("Crash Button 1")
+        }
     }
 }

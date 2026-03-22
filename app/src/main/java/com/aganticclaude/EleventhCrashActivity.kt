@@ -1,6 +1,5 @@
 package com.aganticclaude
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,25 +8,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
-class FifthCrashActivity : ComponentActivity() {
+class EleventhCrashActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            FifthCrashScreen()
+            EleventhCrashScreen()
         }
     }
 }
 
 @Composable
-fun FifthCrashScreen() {
-
-    val context = LocalContext.current  // ✅ Get context to open SixthCrashActivity
+fun EleventhCrashScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -35,32 +31,35 @@ fun FifthCrashScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // 🔴 Crash 1 → NullPointerException
+        // 🔴 Crash 1 → NumberFormatException
         Button(
             onClick = {
                 FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from CrashActivity - ClassCastException")
-                    setCustomKey("crash_type", "ClassCastException")
+                    log("Crash from EleventhCrashActivity - NumberFormatException")
+                    setCustomKey("crash_type", "NumberFormatException")
                 }
 
-                val obj: Any = "This is a String"
-                val number = obj as Int   // ❌ Force ClassCastException
+                val number = "NotANumber".toInt()  // ❌ Force NumberFormatException
             }
         ) {
-            Text("Crash - Class Cast Exception")
+            Text("Crash - Number Format")
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // 🔵 New Button → Open SixthCrashActivity
+        // 🔵 Crash 2 → Kotlin NullPointerException (lateinit)
         Button(
             onClick = {
-                context.startActivity(
-                    Intent(context, SixthCrashActivity::class.java)
-                )
+                FirebaseCrashlytics.getInstance().apply {
+                    log("Crash from EleventhCrashActivity - UninitializedPropertyAccessException")
+                    setCustomKey("crash_type", "UninitializedPropertyAccessException")
+                }
+
+                lateinit var name: String
+                val length = name.length  // ❌ Force UninitializedPropertyAccessException
             }
         ) {
-            Text("Open Sixth Crash Activity")
+            Text("Crash - Lateinit Property")
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.aganticclaude
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,25 +8,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
-class FifthCrashActivity : ComponentActivity() {
+class TenthCrashActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            FifthCrashScreen()
+            TenthCrashScreen()
         }
     }
 }
 
 @Composable
-fun FifthCrashScreen() {
-
-    val context = LocalContext.current  // ✅ Get context to open SixthCrashActivity
+fun TenthCrashScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -39,28 +35,32 @@ fun FifthCrashScreen() {
         Button(
             onClick = {
                 FirebaseCrashlytics.getInstance().apply {
-                    log("Crash from CrashActivity - ClassCastException")
-                    setCustomKey("crash_type", "ClassCastException")
+                    log("Crash from TenthCrashActivity - NullPointerException")
+                    setCustomKey("crash_type", "NullPointerException")
                 }
 
-                val obj: Any = "This is a String"
-                val number = obj as Int   // ❌ Force ClassCastException
+                val text: String? = null
+                val length = text!!.length   // ❌ Force NullPointerException
             }
         ) {
-            Text("Crash - Class Cast Exception")
+            Text("Crash - Null Pointer")
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // 🔵 New Button → Open SixthCrashActivity
+        // 🔵 Crash 2 → IndexOutOfBoundsException
         Button(
             onClick = {
-                context.startActivity(
-                    Intent(context, SixthCrashActivity::class.java)
-                )
+                FirebaseCrashlytics.getInstance().apply {
+                    log("Crash from TenthCrashActivity - IndexOutOfBounds")
+                    setCustomKey("crash_type", "IndexOutOfBoundsException")
+                }
+
+                val list = listOf(1, 2, 3)
+                val crash = list[5]   // ❌ Force IndexOutOfBoundsException
             }
         ) {
-            Text("Open Sixth Crash Activity")
+            Text("Crash - Index Out Of Bounds")
         }
     }
 }

@@ -61,5 +61,20 @@ fun SeventhCrashScreen() {
         ) {
             Text("Crash - Illegal State")
         }
+
+        // 🔴 Crash 1 → NullPointerException
+        Button(
+            onClick = {
+                FirebaseCrashlytics.getInstance().apply {
+                    log("Crash from CrashActivity - ClassCastException")
+                    setCustomKey("crash_type", "ClassCastException")
+                }
+
+                val obj: Any = "This is a String"
+                val number = obj as Int   // ❌ Force ClassCastException
+            }
+        ) {
+            Text("Crash - Class Cast Exception")
+        }
     }
 }

@@ -23,7 +23,7 @@ class CrashActivity : ComponentActivity() {
         }
     }
 
-    // ✅ New method for reporting non-fatal errors
+    // ✅ Method for reporting non-fatal errors
     fun reportNonFatalError(message: String) {
         FirebaseCrashlytics.getInstance().apply {
             log("Non-fatal error reported: $message")
@@ -44,7 +44,7 @@ fun CrashScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // 🔴 First Button → Open ThirdCrashActivity
+        // 🔴 Open ThirdCrashActivity
         Button(
             onClick = {
                 context.startActivity(
@@ -57,27 +57,72 @@ fun CrashScreen() {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // 🔵 Second Button → Crash
+        // 🔵 Crash Button (Fatal)
+        // 🔶 NEW → ClassCastException Crash
         Button(
             onClick = {
-                FirebaseCrashlytics.getInstance()
-                    .log("Crash from Second Button")
+                FirebaseCrashlytics.getInstance().apply {
+                    log("Crash from CrashActivity - ClassCastException")
+                    setCustomKey("crash_type", "ClassCastException")
+                }
 
-                throw RuntimeException("Crash from Second Button")
+                val obj: Any = "This is a String"
+                val number = obj as Int   // ❌ Force ClassCastException
             }
         ) {
-            Text("Crash From Second Button")
+            Text("Crash - Class Cast Exception")
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // 🟢 Third Button → Non-Fatal Error
+        // 🟢 Report Non-Fatal Error
         Button(
             onClick = {
-                throw RuntimeException("Crash from Sixth Button")
+                activity.reportNonFatalError("Manual non-fatal test error")
             }
         ) {
             Text("Report Non-Fatal Error")
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 🟣 Open EighthCrashActivity
+        Button(
+            onClick = {
+                context.startActivity(
+                    Intent(context, EighthCrashActivity::class.java)
+                )
+            }
+        ) {
+            Text("Open Eighth Crash Activity")
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 🟡 NEW → Open NinthCrashActivity
+        Button(
+            onClick = {
+                context.startActivity(
+                    Intent(context, NinthCrashActivity::class.java)
+                )
+            }
+        ) {
+            Text("Open Ninth Crash Activity")
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(
+            onClick = {
+                FirebaseCrashlytics.getInstance().apply {
+                    log("Crash from CrashActivity - DivideByZero")
+                    setCustomKey("crash_type", "ArithmeticException")
+                }
+
+                val crash = 100 / 0  // Force ArithmeticException
+            }
+        ) {
+            Text("Crash - Divide by Zero")
         }
     }
 }
