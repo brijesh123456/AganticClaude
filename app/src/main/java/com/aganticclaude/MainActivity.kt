@@ -19,14 +19,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainScreen(
                 onOpenCrash = { startActivity(Intent(this, CrashActivity::class.java)) },
-                onOpenCrashMenu = { startActivity(Intent(this, TwelfthCrashActivity::class.java)) }
+                onOpenCrashMenu = { startActivity(Intent(this, TwelfthCrashActivity::class.java)) },
+                onOpenThirteenthCrash = { startActivity(Intent(this, ThirteenthCrashActivity::class.java)) }
             )
         }
     }
 }
 
 @Composable
-fun MainScreen(onOpenCrash: () -> Unit, onOpenCrashMenu: () -> Unit) {
+fun MainScreen(onOpenCrash: () -> Unit, onOpenCrashMenu: () -> Unit, onOpenThirteenthCrash: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -40,6 +41,12 @@ fun MainScreen(onOpenCrash: () -> Unit, onOpenCrashMenu: () -> Unit) {
 
         Button(onClick = onOpenCrashMenu) {
             Text("Open Crash Test Menu")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = onOpenThirteenthCrash) {
+            Text("Open Thirteenth Crash Menu")
         }
     }
 }
