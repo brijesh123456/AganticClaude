@@ -118,8 +118,12 @@ fun TwelfthCrashScreen() {
                     log("Crash from TwelfthCrashActivity - StackOverflowError")
                     setCustomKey("crash_type", "StackOverflowError")
                 }
-                fun recurse(): Int = recurse() + 1
-                recurse()
+                try {
+                    fun recurse(): Int = recurse() + 1
+                    recurse()
+                } catch (e: StackOverflowError) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
+                }
             }
         ) {
             Text("5. Stack Overflow")
