@@ -25,9 +25,13 @@ class CrashActivity : ComponentActivity() {
 
     // ✅ Method for reporting non-fatal errors
     fun reportNonFatalError(message: String) {
-        FirebaseCrashlytics.getInstance().apply {
-            log("Non-fatal error reported: $message")
-            recordException(Exception(message))
+        try {
+            FirebaseCrashlytics.getInstance().apply {
+                log("Non-fatal error reported: $message")
+                recordException(Exception(message))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }
