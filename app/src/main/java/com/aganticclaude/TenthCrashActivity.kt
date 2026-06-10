@@ -62,5 +62,22 @@ fun TenthCrashScreen() {
         ) {
             Text("Crash - Index Out Of Bounds")
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // 🟠 Crash 3 → StackOverflowError
+        Button(
+            onClick = {
+                FirebaseCrashlytics.getInstance().apply {
+                    log("Crash from TenthCrashActivity - StackOverflow")
+                    setCustomKey("crash_type", "StackOverflowError")
+                }
+
+                fun infiniteRecursion(): Int = infiniteRecursion() + 1   // ❌ Force StackOverflowError
+                infiniteRecursion()
+            }
+        ) {
+            Text("New Crash")
+        }
     }
 }
