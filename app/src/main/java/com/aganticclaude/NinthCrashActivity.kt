@@ -40,8 +40,12 @@ fun NinthCrashScreen(activity: ComponentActivity) {
                     setCustomKey("crash_type", "ClassCastException")
                 }
 
-                val obj: Any = "This is a String"
-                val number = obj as Int
+                try {
+                    val obj: Any = "This is a String"
+                    val number = obj as Int
+                } catch (e: ClassCastException) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
+                }
             }
         ) {
             Text("Crash - Class Cast Exception")
@@ -57,7 +61,11 @@ fun NinthCrashScreen(activity: ComponentActivity) {
                     setCustomKey("crash_type", "ArithmeticException")
                 }
 
-                val crash = 100 / 0
+                try {
+                    val crash = 100 / 0
+                } catch (e: ArithmeticException) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
+                }
             }
         ) {
             Text("Crash - Divide by Zero")
@@ -73,7 +81,11 @@ fun NinthCrashScreen(activity: ComponentActivity) {
                     setCustomKey("crash_type", "IllegalStateException")
                 }
 
-                throw IllegalStateException("Forced Illegal State Crash")
+                try {
+                    throw IllegalStateException("Forced Illegal State Crash")
+                } catch (e: IllegalStateException) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
+                }
             }
         ) {
             Text("Crash - Illegal State")
