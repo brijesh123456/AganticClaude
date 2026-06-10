@@ -34,12 +34,12 @@ fun EighthCrashScreen() {
         // 🔴 Crash Button
         Button(
             onClick = {
+                val exception = RuntimeException("Fatal crash from EighthCrashActivity")
                 FirebaseCrashlytics.getInstance().apply {
                     log("Crash from EighthCrashActivity")
                     setCustomKey("crash_screen", "EighthCrashActivity")
+                    recordException(exception)
                 }
-
-                throw RuntimeException("Fatal crash from EighthCrashActivity")
             }
         ) {
             Text("Crash in Eighth Activity")
