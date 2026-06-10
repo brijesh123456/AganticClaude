@@ -73,8 +73,12 @@ fun ThirdCrashScreen() {
                     setCustomKey("crash_button", "ThirdActivity_Button3")
                 }
 
-                // ⚠️ Force crash: divide by zero
-                val crash = 10 / 0
+                // ⚠️ Handled: divide by zero
+                try {
+                    val crash = 10 / 0
+                } catch (e: ArithmeticException) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
+                }
             }
         ) {
             Text("Crash Button 3 (Divide by Zero)")
