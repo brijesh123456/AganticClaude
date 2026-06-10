@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.unit.dp
+import kotlin.jvm.java
 
 class MainActivity : ComponentActivity() {
 
@@ -20,15 +21,14 @@ class MainActivity : ComponentActivity() {
             MainScreen(
                 onOpenCrash = { startActivity(Intent(this, CrashActivity::class.java)) },
                 onOpenCrashMenu = { startActivity(Intent(this, TwelfthCrashActivity::class.java)) },
-                onOpenThirteenCrash = { startActivity(Intent(this, ThirteenCrashActivity::class.java)) },
-                onOpenFourteenCrash = { startActivity(Intent(this, FourteenCrashActivity::class.java)) }
+                onOpenThirteenCrash = { startActivity(Intent(this, ThirteenCrashActivity::class.java)) }
             )
         }
     }
 }
 
 @Composable
-fun MainScreen(onOpenCrash: () -> Unit, onOpenCrashMenu: () -> Unit, onOpenThirteenCrash: () -> Unit, onOpenFourteenCrash: () -> Unit) {
+fun MainScreen(onOpenCrash: () -> Unit, onOpenCrashMenu: () -> Unit, onOpenThirteenCrash: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -48,12 +48,6 @@ fun MainScreen(onOpenCrash: () -> Unit, onOpenCrashMenu: () -> Unit, onOpenThirt
 
         Button(onClick = onOpenThirteenCrash) {
             Text("Open Thirteen Crash Menu")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(onClick = onOpenFourteenCrash) {
-            Text("Open Fourteen Crash Menu")
         }
     }
 }
