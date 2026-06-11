@@ -38,39 +38,43 @@ class CrashDetailActivity : ComponentActivity() {
     }
 
     private fun triggerCrash(crash: CrashInfo) {
-        FirebaseCrashlytics.getInstance().apply {
+        val crashlytics = FirebaseCrashlytics.getInstance().apply {
             log("Crash triggered from CrashDetailActivity")
             setCustomKey("crash_type", crash.name)
         }
-        when (crash.id) {
-            0 -> {
-                val text: String? = null
-                val length = text!!.length
+        try {
+            when (crash.id) {
+                0 -> {
+                    val text: String? = null
+                    val length = text!!.length
+                }
+                1 -> {
+                    val arr = intArrayOf(1, 2, 3)
+                    val value = arr[10]
+                }
+                2 -> {
+                    val obj: Any = "This is a String"
+                    val number = obj as Int
+                }
+                3 -> {
+                    val result = 100 / 0
+                }
+                4 -> {
+                    fun recurse(): Int = recurse() + 1
+                    recurse()
+                }
+                5 -> {
+                    val number = "NotANumber".toInt()
+                }
+                6 -> {
+                    throw IllegalStateException("Forced IllegalStateException from CrashDetailActivity")
+                }
+                7 -> {
+                    throw RuntimeException("Forced RuntimeException from CrashDetailActivity")
+                }
             }
-            1 -> {
-                val arr = intArrayOf(1, 2, 3)
-                val value = arr[10]
-            }
-            2 -> {
-                val obj: Any = "This is a String"
-                val number = obj as Int
-            }
-            3 -> {
-                val result = 100 / 0
-            }
-            4 -> {
-                fun recurse(): Int = recurse() + 1
-                recurse()
-            }
-            5 -> {
-                val number = "NotANumber".toInt()
-            }
-            6 -> {
-                throw IllegalStateException("Forced IllegalStateException from CrashDetailActivity")
-            }
-            7 -> {
-                throw RuntimeException("Forced RuntimeException from CrashDetailActivity")
-            }
+        } catch (e: Throwable) {
+            crashlytics.recordException(e)
         }
     }
 }
