@@ -29,6 +29,11 @@ class HomeActivity : ComponentActivity() {
                     },
                     onViewFixedCrashes = {
                         startActivity(Intent(this, ThirteenCrashActivity::class.java))
+                    },
+                    onViewCrashDetail = {
+                        startActivity(Intent(this, CrashDetailActivity::class.java).apply {
+                            putExtra("crash_id", 0)
+                        })
                     }
                 )
             }
@@ -37,7 +42,7 @@ class HomeActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen(onBrowseCrashes: () -> Unit, onViewFixedCrashes: () -> Unit) {
+fun HomeScreen(onBrowseCrashes: () -> Unit, onViewFixedCrashes: () -> Unit, onViewCrashDetail: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -136,6 +141,37 @@ fun HomeScreen(onBrowseCrashes: () -> Unit, onViewFixedCrashes: () -> Unit) {
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("View Fixed Crashes")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Card 3 — Crash Detail
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                Column(modifier = Modifier.padding(20.dp)) {
+                    Text(
+                        text = "Crash Detail",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF1A1A2E)
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "View detailed information about a specific crash type and trigger it.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFF6B7280)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OutlinedButton(
+                        onClick = onViewCrashDetail,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Open Crash Detail")
                     }
                 }
             }
