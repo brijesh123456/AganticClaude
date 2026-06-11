@@ -91,7 +91,9 @@ class CrashInfoActivity : ComponentActivity() {
                 throw RuntimeException("Stability digest crash: onStabilityDigest alert simulation")
             }
             13 -> {
-                throw RuntimeException("Velocity spike alert: onVelocityAlert alert simulation")
+                FirebaseCrashlytics.getInstance().recordException(
+                    RuntimeException("Velocity spike alert: onVelocityAlert alert simulation")
+                )
             }
         }
     }
