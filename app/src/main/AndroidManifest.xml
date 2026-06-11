@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AganticClaude">
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AganticClaude">
@@ -23,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MainActivity" />
+
+        <activity android:name=".CrashListActivity" />
+
+        <activity android:name=".CrashDetailActivity" />
 
         <activity android:name=".CrashActivity" />
 
