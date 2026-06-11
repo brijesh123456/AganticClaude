@@ -56,7 +56,9 @@ class CrashDetailActivity : ComponentActivity() {
                 val number = obj as Int
             }
             3 -> {
-                val result = 100 / 0
+                val divisor = 0
+                if (divisor == 0) throw ArithmeticException("/ by zero")
+                val result = 100 / divisor
             }
             4 -> {
                 fun recurse(): Int = recurse() + 1
