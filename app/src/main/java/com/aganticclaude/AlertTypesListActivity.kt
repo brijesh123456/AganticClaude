@@ -31,7 +31,7 @@ class AlertTypesListActivity : ComponentActivity() {
                 AlertTypesListScreen(
                     onNavigateBack = { finish() },
                     onAlertSelected = { crashId ->
-                        val intent = Intent(this, CrashDetailActivity::class.java)
+                        val intent = Intent(this, CrashInfoActivity::class.java)
                         intent.putExtra("crash_id", crashId)
                         startActivity(intent)
                     }
