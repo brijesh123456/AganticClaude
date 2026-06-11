@@ -24,7 +24,9 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 class CrashDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val crashId = intent.getIntExtra("crash_id", 0)
+        val crashId = (intent.extras?.get("crash_id") as? Int)
+            ?: intent.getStringExtra("crash_id")?.toIntOrNull()
+            ?: 0
         val crash = crashItems.getOrElse(crashId) { crashItems[0] }
         setContent {
             AganticClaudeTheme(darkTheme = false) {
