@@ -24,31 +24,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" />
-
         <activity android:name=".CrashListActivity" />
 
         <activity android:name=".CrashDetailActivity" />
 
-        <activity android:name=".CrashActivity" />
+        <activity android:name=".AlertTypesListActivity" />
 
-        <activity android:name=".ThirdCrashActivity" />
-
-        <activity android:name=".FourthCrashActivity" />
-
-        <activity android:name=".FifthCrashActivity" />
-
-        <activity android:name=".SixthCrashActivity" />
-
-        <activity android:name=".SeventhCrashActivity" />
-
-        <activity android:name=".EighthCrashActivity" />
-
-        <activity android:name=".NinthCrashActivity" />
-        <activity android:name=".TenthCrashActivity" />
-        <activity android:name=".EleventhCrashActivity" />
-        <activity android:name=".TwelfthCrashActivity" />
-        <activity android:name=".ThirteenCrashActivity" />
     </application>
 
 </manifest>

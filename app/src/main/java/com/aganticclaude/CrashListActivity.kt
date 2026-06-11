@@ -110,6 +110,66 @@ val crashItems = listOf(
                 "Wrapping risky operations in try-catch blocks allows the app to handle the error gracefully.",
         iconLabel = "RE",
         iconColor = Color(0xFFC62828)
+    ),
+    CrashInfo(
+        id = 8,
+        name = "onAnrCrash",
+        shortDesc = "App Not Responding crash event",
+        fullDescription = "An ANR (App Not Responding) occurs when the main thread is blocked for more than 5 seconds. " +
+                "This is simulated by running an infinite loop on the main thread, freezing the UI. " +
+                "Moving heavy work to a background thread or coroutine prevents this.",
+        iconLabel = "AN",
+        iconColor = Color(0xFFE53935)
+    ),
+    CrashInfo(
+        id = 9,
+        name = "onFatalCrash",
+        shortDesc = "Fatal crash — app terminated",
+        fullDescription = "A fatal crash immediately terminates the app and is logged to Firebase Crashlytics. " +
+                "This is simulated by throwing an unhandled RuntimeException on the main thread. " +
+                "Fatal crashes require the user to restart the app to continue.",
+        iconLabel = "FC",
+        iconColor = Color(0xFFF57C00)
+    ),
+    CrashInfo(
+        id = 10,
+        name = "onNonFatalCrash",
+        shortDesc = "Non-fatal crash — app survived",
+        fullDescription = "A non-fatal crash is a caught exception that is manually recorded to Firebase Crashlytics " +
+                "without terminating the app. This is useful for tracking errors that are handled gracefully " +
+                "but still indicate a problem that needs attention.",
+        iconLabel = "NF",
+        iconColor = Color(0xFFFBC02D)
+    ),
+    CrashInfo(
+        id = 11,
+        name = "onRegression",
+        shortDesc = "Crash rate regression detected",
+        fullDescription = "A regression alert fires when a previously stable crash reappears or when the crash " +
+                "rate significantly increases compared to a previous version. " +
+                "This is simulated by throwing an exception tagged with regression metadata.",
+        iconLabel = "RG",
+        iconColor = Color(0xFF7B1FA2)
+    ),
+    CrashInfo(
+        id = 12,
+        name = "onStabilityDigest",
+        shortDesc = "Periodic stability summary report",
+        fullDescription = "A stability digest is a periodic summary of crash trends sent by Firebase Crashlytics. " +
+                "This simulates a fatal exception that would appear in a daily or weekly digest report, " +
+                "helping teams monitor overall app health over time.",
+        iconLabel = "SD",
+        iconColor = Color(0xFF1565C0)
+    ),
+    CrashInfo(
+        id = 13,
+        name = "onVelocityAlert",
+        shortDesc = "Rapid crash velocity spike alert",
+        fullDescription = "A velocity alert fires when the number of crashes per session exceeds a set threshold " +
+                "in a short period of time. This simulates a sudden spike by throwing a fatal exception " +
+                "tagged with velocity alert metadata in Firebase Crashlytics.",
+        iconLabel = "VA",
+        iconColor = Color(0xFF00695C)
     )
 )
 

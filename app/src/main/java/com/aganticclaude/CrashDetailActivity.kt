@@ -71,6 +71,28 @@ class CrashDetailActivity : ComponentActivity() {
             7 -> {
                 throw RuntimeException("Forced RuntimeException from CrashDetailActivity")
             }
+            8 -> {
+                // Simulate ANR by blocking the main thread
+                Thread.sleep(6000)
+            }
+            9 -> {
+                throw RuntimeException("Forced fatal crash: onFatalCrash alert simulation")
+            }
+            10 -> {
+                FirebaseCrashlytics.getInstance().recordException(
+                    RuntimeException("Non-fatal crash recorded: onNonFatalCrash alert simulation")
+                )
+                throw RuntimeException("Forced crash after non-fatal record: onNonFatalCrash")
+            }
+            11 -> {
+                throw RuntimeException("Regression detected: onRegression alert simulation")
+            }
+            12 -> {
+                throw RuntimeException("Stability digest crash: onStabilityDigest alert simulation")
+            }
+            13 -> {
+                throw RuntimeException("Velocity spike alert: onVelocityAlert alert simulation")
+            }
         }
     }
 }

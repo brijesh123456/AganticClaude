@@ -27,13 +27,13 @@ class HomeActivity : ComponentActivity() {
                     onBrowseCrashes = {
                         startActivity(Intent(this, CrashListActivity::class.java))
                     },
-                    onViewFixedCrashes = {
-                        startActivity(Intent(this, ThirteenCrashActivity::class.java))
-                    },
                     onViewCrashDetail = {
                         startActivity(Intent(this, CrashDetailActivity::class.java).apply {
                             putExtra("crash_id", 0)
                         })
+                    },
+                    onBrowseAlertTypes = {
+                        startActivity(Intent(this, AlertTypesListActivity::class.java))
                     }
                 )
             }
@@ -41,30 +41,32 @@ class HomeActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onBrowseCrashes: () -> Unit, onViewFixedCrashes: () -> Unit, onViewCrashDetail: () -> Unit) {
+fun HomeScreen(onBrowseCrashes: () -> Unit, onViewCrashDetail: () -> Unit, onBrowseAlertTypes: () -> Unit) {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Crash Lab",
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            )
+        }
+    ) { innerPadding ->
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF4F6F8))
+            .padding(innerPadding)
             .verticalScroll(rememberScrollState())
     ) {
-
-        // Header — title only
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(horizontal = 24.dp, vertical = 36.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "CrashLab",
-                style = MaterialTheme.typography.displaySmall,
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-        }
 
         // Description — just above the cards
         Column(
@@ -116,38 +118,7 @@ fun HomeScreen(onBrowseCrashes: () -> Unit, onViewFixedCrashes: () -> Unit, onVi
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Card 2 — View Fixed Crashes
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
-            ) {
-                Column(modifier = Modifier.padding(20.dp)) {
-                    Text(
-                        text = "Auto-Fix Demo",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF1A1A2E)
-                    )
-                    Spacer(modifier = Modifier.height(6.dp))
-                    Text(
-                        text = "See how Claude AI applies safe fixes for each crash type automatically.",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color(0xFF6B7280)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    OutlinedButton(
-                        onClick = onViewFixedCrashes,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("View Fixed Crashes")
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Card 3 — Crash Detail
+            // Card 2 — Crash Detail
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
@@ -176,7 +147,39 @@ fun HomeScreen(onBrowseCrashes: () -> Unit, onViewFixedCrashes: () -> Unit, onVi
                 }
             }
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Card 3 — Alert Types
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                Column(modifier = Modifier.padding(20.dp)) {
+                    Text(
+                        text = "Alert Types",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF1A1A2E)
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "Browse alert event types such as ANR, fatal, non-fatal, regression, and velocity alerts.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFF6B7280)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = onBrowseAlertTypes,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Browse Alert Types")
+                    }
+                }
+            }
+
             Spacer(modifier = Modifier.height(32.dp))
         }
+    }
     }
 }
