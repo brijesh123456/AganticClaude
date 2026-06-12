@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.aganticclaude.ui.theme.AganticClaudeTheme
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
-class CrashDetailActivity : ComponentActivity() {
+class CrashIssueDetailsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val crashId = intent.getIntExtra("crash_id", 0)
@@ -39,7 +39,7 @@ class CrashDetailActivity : ComponentActivity() {
 
     private fun triggerCrash(crash: CrashInfo) {
         FirebaseCrashlytics.getInstance().apply {
-            log("Crash triggered from CrashDetailActivity")
+            log("Crash triggered from CrashIssueDetailsActivity")
             setCustomKey("crash_type", crash.name)
         }
         when (crash.id) {

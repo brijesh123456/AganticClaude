@@ -26,9 +26,21 @@
 
         <activity android:name=".CrashListActivity" />
 
-        <activity android:name=".CrashDetailActivity" />
+        <activity android:name=".CrashIssueDetailsActivity" />
 
         <activity android:name=".AlertTypesListActivity" />
+
+        <activity android:name=".AnrCrashDetailActivity" />
+
+        <activity android:name=".FatalCrashDetailActivity" />
+
+        <activity android:name=".NonFatalCrashDetailActivity" />
+
+        <activity android:name=".RegressionDetailActivity" />
+
+        <activity android:name=".StabilityDigestDetailActivity" />
+
+        <activity android:name=".VelocityAlertDetailActivity" />
 
     </application>
 

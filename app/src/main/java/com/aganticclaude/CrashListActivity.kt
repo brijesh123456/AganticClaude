@@ -173,7 +173,7 @@ val crashItems = listOf(
     )
 )
 
-class CrashListActivity : ComponentActivity() {
+class CrashTestListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -181,7 +181,7 @@ class CrashListActivity : ComponentActivity() {
                 CrashListScreen(
                     onNavigateBack = { finish() },
                     onCrashSelected = { crashId ->
-                        val intent = Intent(this, CrashDetailActivity::class.java)
+                        val intent = Intent(this, CrashIssueDetailsActivity::class.java)
                         intent.putExtra("crash_id", crashId)
                         startActivity(intent)
                     }

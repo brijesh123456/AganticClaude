@@ -25,10 +25,10 @@ class HomeActivity : ComponentActivity() {
             AganticClaudeTheme(darkTheme = false) {
                 HomeScreen(
                     onBrowseCrashes = {
-                        startActivity(Intent(this, CrashListActivity::class.java))
+                        startActivity(Intent(this, CrashTestListActivity::class.java))
                     },
                     onViewCrashDetail = {
-                        startActivity(Intent(this, CrashDetailActivity::class.java).apply {
+                        startActivity(Intent(this, CrashIssueDetailsActivity::class.java).apply {
                             putExtra("crash_id", 0)
                         })
                     },
