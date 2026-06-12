@@ -82,7 +82,6 @@ class CrashDetailActivity : ComponentActivity() {
                 FirebaseCrashlytics.getInstance().recordException(
                     RuntimeException("Non-fatal crash recorded: onNonFatalCrash alert simulation")
                 )
-                throw RuntimeException("Forced crash after non-fatal record: onNonFatalCrash")
             }
             11 -> {
                 throw RuntimeException("Regression detected: onRegression alert simulation")
