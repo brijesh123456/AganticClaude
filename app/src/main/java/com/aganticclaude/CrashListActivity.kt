@@ -181,7 +181,7 @@ class CrashListActivity : ComponentActivity() {
                 CrashListScreen(
                     onNavigateBack = { finish() },
                     onCrashSelected = { crashId ->
-                        val intent = Intent(this, CrashInfoActivity::class.java)
+                        val intent = Intent(this, CrashDetailActivity::class.java)
                         intent.putExtra("crash_id", crashId)
                         startActivity(intent)
                     }

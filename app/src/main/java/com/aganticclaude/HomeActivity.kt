@@ -28,7 +28,7 @@ class HomeActivity : ComponentActivity() {
                         startActivity(Intent(this, CrashListActivity::class.java))
                     },
                     onViewCrashDetail = {
-                        startActivity(Intent(this, CrashInfoActivity::class.java).apply {
+                        startActivity(Intent(this, CrashDetailActivity::class.java).apply {
                             putExtra("crash_id", 0)
                         })
                     },

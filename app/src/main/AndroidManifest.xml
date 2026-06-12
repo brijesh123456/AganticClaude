@@ -26,7 +26,7 @@
 
         <activity android:name=".CrashListActivity" />
 
-        <activity android:name=".CrashInfoActivity" />
+        <activity android:name=".CrashDetailActivity" />
 
         <activity android:name=".AlertTypesListActivity" />
 
