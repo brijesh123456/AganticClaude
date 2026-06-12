@@ -22,11 +22,12 @@ class VelocityAlertDetailActivity : ComponentActivity() {
     }
 
     private fun triggerAlert() {
+        val exception = RuntimeException("Velocity spike alert: onVelocityAlert alert simulation")
         FirebaseCrashlytics.getInstance().apply {
             log("Alert triggered: onVelocityAlert")
             setCustomKey("alert_type", "onVelocityAlert")
             setCustomKey("alert_category", "VelocityAlert")
+            recordException(exception)
         }
-        throw RuntimeException("Velocity spike alert: onVelocityAlert alert simulation")
     }
 }
