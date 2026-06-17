@@ -63,7 +63,11 @@ class CrashIssueDetailsActivity : ComponentActivity() {
                 recurse()
             }
             5 -> {
-                val number = "NotANumber".toInt()
+                try {
+                    val number = "NotANumber".toInt()
+                } catch (e: NumberFormatException) {
+                    throw NumberFormatException("For input string: \"NotANumber\"")
+                }
             }
             6 -> {
                 throw IllegalStateException("Forced IllegalStateException from CrashDetailActivity")
