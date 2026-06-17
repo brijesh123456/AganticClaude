@@ -49,7 +49,7 @@ class CrashIssueDetailsActivity : ComponentActivity() {
             }
             1 -> {
                 val arr = intArrayOf(1, 2, 3)
-                val value = arr[10]
+                val value = if (10 < arr.size) arr[10] else arr.getOrElse(10) { -1 }
             }
             2 -> {
                 val obj: Any = "This is a String"
